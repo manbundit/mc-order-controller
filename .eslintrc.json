@@ -1,0 +1,62 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "ignorePatterns": ["node_modules/", ".next/", "storybook-static/"],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": [
+              "**/*.styles",
+              "./*.styles",
+              "../**/*.styles",
+              "@/**/*.styles"
+            ],
+            "message": "Component styles (*.styles) are private to their component. Import a component's styles only from its sibling component file — never from a page, hook, provider, or another component."
+          }
+        ]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "pathGroups": [
+          { "pattern": "@/domain/**", "group": "internal", "position": "before" },
+          { "pattern": "@/application/**", "group": "internal", "position": "before" },
+          { "pattern": "@/presentation/**", "group": "internal", "position": "before" },
+          { "pattern": "@/**", "group": "internal", "position": "before" }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "newlines-between": "never"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/presentation/components/**/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/**/*.styles", "../**/*.styles"],
+                "message": "A component may import only its own sibling styles (./Name.styles), not another component's styles."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
